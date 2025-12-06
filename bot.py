@@ -345,7 +345,7 @@ class ModernChatGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("University FAQ Assistant")
-        self.root.geometry("900x750")
+        self.root.geometry("700x750")
         self.bot = EnhancedFAQBot()
         self.is_typing = False
         
