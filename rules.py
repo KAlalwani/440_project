@@ -157,5 +157,14 @@ rules = {
 
     # IT support
     r"(it support|technical help|computer help|tech support)": 
-        "For technical support, contact IT Helpdesk or email support@university.com."
-}
+        "For technical support, contact IT Helpdesk or email support@university.com.",
+
+    # Registration End Date
+    r"(registration end|when does registration end|end of registration)":
+        "Registration ends on January 20.",
+        
+    # Course Withdrawal Deadline
+    r"(course withdrawal deadline|when is the last day to withdraw|withdrawal end date)": 
+        "The course withdrawal deadline is the end of Week 10 of the semester."
+
+        }
