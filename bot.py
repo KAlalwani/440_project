@@ -183,7 +183,7 @@ RULES = [
         "topic": "it_support",
         "intents": ["how", "general"],
         "keywords": ["it support", "technical help", "computer help", "tech support", "helpdesk", "technical issue"],
-        "patterns": ["how.*contact.*it", "it.*help", "tech.*support"],
+        "patterns": ["how.*contact.*it", "it.*help", "tech.*support", "conatct.*it"],
         "response": "For technical support: Email support@university.edu, call (555) 123-4567, or visit IT Helpdesk in Building A, Room 101. Available Mon-Fri 9AM-5PM. For urgent issues, use the live chat on the IT website.",
         "priority": 2,
         "weight": 1.0,
@@ -228,7 +228,8 @@ SYNONYMS = {
     "tech help": "it support",
 }
 
-
+import json
+from datetime import datetime
 class EnhancedFAQBot:
     def __init__(self):
         self.last_topic = None
@@ -320,6 +321,22 @@ class EnhancedFAQBot:
             return -1
         score = score * rule["weight"] + rule["priority"] * 0.5
         return score
+    
+    def save_unknown(self, query, filename="unknown_queries.json"):
+        try:
+            with open(filename, "r") as f:
+                data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            data = []
+
+        data.append({
+            "query": query,
+            "timestamp": datetime.utcnow().isoformat() + "Z"
+        })
+
+        with open(filename, "w") as f:
+            json.dump(data, f, indent=4)
+
 
     def get_response(self, user_input: str) -> str:
         normalized = self.normalize(user_input)
@@ -338,7 +355,8 @@ class EnhancedFAQBot:
             if len(self.conversation_context) > 5:
                 self.conversation_context.pop(0)
             return best_match["response"]
-        return "I'm not sure about that. Please contact the university administration at admin@university.edu or call (555) 123-4567 for assistance."
+        self.save_unknown(user_input)
+        return "I'm not sure about that. Please contact the university administration at admin@university.edu or call (+973) 33334567 for assistance."
 
 
 class ModernChatGUI:
